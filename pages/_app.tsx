@@ -1,8 +1,16 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+import { Provider } from "urql";
+import { client } from 'graphql-client/init';
+function App({ Component, pageProps }: AppProps) {
+  return (
+    <>
+      <Provider value={client}>
+        <Component {...pageProps} />
+      </Provider>
+    </>
+  );
 }
 
-export default MyApp
+export default App;

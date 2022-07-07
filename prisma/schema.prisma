@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../graphql/client"
+}
+generator pothos {
+  provider = "prisma-pothos-types"
+  clientOutput = "../graphql/client"
+  output       = "../graphql/generated.d.ts"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL20")
+}
+
+model users {
+  id        String      @id @default(cuid())
+  email     String      @unique @db.VarChar
+  name      String?     @db.VarChar
+  birthdate DateTime?   @db.Date
+  createdat DateTime?   @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamp(6)
+  password  String      @db.VarChar
+  phone     String?     @unique @db.VarChar
+  salt      String      @db.VarChar
+  updatedat DateTime?   @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamp(6)
+  type      String?     @db.VarChar
+}
+
